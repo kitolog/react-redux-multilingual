@@ -11,7 +11,8 @@ class IntlProvider extends React.Component {
     }
   }
   static childContextTypes = {
-    translate: React.PropTypes.func
+    translate: React.PropTypes.func,
+    getTranslateLocale:React.PropTypes.func,
   };
   translate = (key, placeholders, isHTML) => {
     let result = translateKey(key, this.props.translations[this.props.locale]['messages'])
@@ -22,9 +23,13 @@ class IntlProvider extends React.Component {
     ? <div dangerouslySetInnerHTML={createHTMLMarkup(supplant(result, placeholders))} />
     : supplant(result, placeholders)
   };
+   getTranslateLocale = () => {
+    return this.props.locale
+  };
   getChildContext () {
     return {
-      translate: this.translate
+      translate: this.translate,
+      getTranslateLocale:this.getTranslateLocale
     }
   }
   render () {
